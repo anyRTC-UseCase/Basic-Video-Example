@@ -24,7 +24,7 @@ Demo演示了以下功能
 3. 复制 AppId 后填入 Demo 程序中，具体位置在**Main/RoomViewController.m**
 
 ```
-#define APPID               @""
+#define APPID               @"your AppId"
 ```
 
 4. 开始运行即可
@@ -35,7 +35,7 @@ Demo演示了以下功能
 
 你可以查看文档了解如何 [快速集成](https://docs.anyrtc.io/rtc-ios/docs/ios/ios_rtc_guide)
 
-完整文档地址 👉 [API参考](https://docs.anyrtc.io/)
+完整文档地址 👉 [API参考](https://docs.anyrtc.io/rtc-ios/docs/ios/ios_rtc_overview)
 
 
 ## 联系我们
