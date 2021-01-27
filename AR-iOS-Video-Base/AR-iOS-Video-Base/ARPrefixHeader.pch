@@ -1,0 +1,20 @@
+//
+//  ARPrefixHeader.pch
+//  AR-iOS-Voice-Base
+//
+//  Created by anyRTC on 2021/1/25.
+//
+
+#ifndef ARPrefixHeader_pch
+#define ARPrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "UIView+ARExtension.h"
+#import "ARConstanst.h"
+#import <ARtcKit/ARtcKit.h>
+
+#endif /* ARPrefixHeader_pch */
