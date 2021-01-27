@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <EditText
+        android:id="@+id/input"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_47"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:hint="输入频道ID"
+        android:gravity="center"
+        android:maxLength="10"
+        android:singleLine="true"
+        android:background="@drawable/shape_et_bg"/>
+
+    <Button
+        android:id="@+id/join"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_width="@dimen/dp_140"
+        android:layout_height="@dimen/dp_40"
+        android:text="加入"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/shape_btn_bg"/>
+</LinearLayout>

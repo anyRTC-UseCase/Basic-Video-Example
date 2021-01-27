@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">视频通话</string>
+    <string name="ar_appid">YOUR APPID</string>
+    <string name="ar_token"></string>
+</resources>
