@@ -5,7 +5,7 @@
 //  Created by anyRTC on 2021/1/26.
 //
 
-#define APPID               @"177e21c0d1641291c34e46e1198bd49a"
+#define APPID               @""
 
 #import "RoomViewController.h"
 #import "VideoShowCell.h"
@@ -36,9 +36,14 @@
 //    [self.engineKit setEnableSpeakerphone:YES];
 }
 
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [self.engineKit leaveChannel:nil];
+    self.engineKit.delegate = nil;
+    self.engineKit = nil;
+}
 
 - (void)initUI {
-
     [self.collection registerNib:[UINib nibWithNibName:NSStringFromClass([VideoShowCell class]) bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:NSStringFromClass([VideoShowCell class])];
     
     [self.micBtn setImage:IMG(@"img_audio_open") forState:UIControlStateNormal];

@@ -29,11 +29,21 @@
 
 - (IBAction)JoinChannelAction:(id)sender {
     [self.view endEditing:YES];
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-    RoomViewController *vc = [sb instantiateViewControllerWithIdentifier:@"RoomViewController"];
-    vc.userId = _uid;
-    vc.channelId = self.channelTF.text;
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    if ([self.channelTF.text isEqualToString:@""]) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"频道id不能为空" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alert addAction:sureAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    } else {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+        RoomViewController *vc = [sb instantiateViewControllerWithIdentifier:@"RoomViewController"];
+        vc.userId = _uid;
+        vc.channelId = self.channelTF.text;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 
