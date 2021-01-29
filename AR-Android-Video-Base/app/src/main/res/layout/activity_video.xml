@@ -12,40 +12,48 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/dp_120"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_20"
         android:layout_alignParentBottom="true">
 
-        <ImageView
+        <Button
             android:id="@+id/mic"
-            android:layout_width="@dimen/dp_62"
-            android:layout_height="@dimen/dp_62"
-            android:layout_marginStart="@dimen/dp_38"
-            android:padding="@dimen/dp_5"
-            android:layout_alignParentStart="true"
-            android:src="@drawable/img_audio_open"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/selector_audio_drawable"
+            android:text="静音"
+            android:textColor="@color/white"
+            android:drawablePadding="@dimen/dp_10"
+            android:background="@null"/>
 
-        <ImageView
+        <Button
             android:id="@+id/leave"
-            android:layout_width="@dimen/dp_72"
-            android:layout_height="@dimen/dp_72"
+            android:layout_width="@dimen/dp_0_1"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_10"
-            android:padding="@dimen/dp_5"
-            android:layout_centerInParent="true"
-            android:src="@drawable/img_leave"/>
+            android:drawableTop="@drawable/img_leave"
+            android:text="挂断"
+            android:textColor="@color/white"
+            android:drawablePadding="@dimen/dp_10"
+            android:background="@null"/>
 
-        <ImageView
+        <Button
             android:id="@+id/camera"
-            android:layout_width="@dimen/dp_62"
-            android:layout_height="@dimen/dp_62"
-            android:layout_marginEnd="@dimen/dp_38"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:padding="@dimen/dp_5"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/img_switch"/>
+            android:text="转换摄像头"
+            android:textColor="@color/white"
+            android:drawablePadding="@dimen/dp_10"
+            android:drawableTop="@drawable/seleltor_camera_drawable"
+            android:background="@null"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

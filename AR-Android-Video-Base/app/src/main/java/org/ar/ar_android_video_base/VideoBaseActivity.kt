@@ -2,6 +2,7 @@ package org.ar.ar_android_video_base
 
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.TextureView
 import android.view.View
@@ -110,38 +111,44 @@ class VideoBaseActivity:AppCompatActivity() ,View.OnClickListener{
         mRtcEngine?.setupRemoteVideo(VideoCanvas(view,Constants.RENDER_MODE_HIDDEN,uid))
     }
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            release()
+            finish()
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
     override fun onClick(p0: View?) {
         when(p0?.id){
             R.id.mic ->{
-                if (isMic){
-                    viewBinding?.mic?.setImageResource(R.drawable.img_audio_open)
-                }else{
-                    viewBinding?.mic?.setImageResource(R.drawable.img_audio_close)
-                }
                 isMic =!isMic
+                viewBinding?.mic?.isSelected =isMic
                 mRtcEngine?.muteLocalAudioStream(isMic)
             }
             R.id.camera->{
-                if (isCamera){
-                    viewBinding?.camera?.setImageResource(R.drawable.img_switch)
-                }else{
-                    viewBinding?.camera?.setImageResource(R.drawable.img_switch_click)
-                }
                 isCamera =!isCamera
+                viewBinding?.camera?.isSelected=isCamera
                 mRtcEngine?.switchCamera()
             }
             R.id.leave->{
+                release()
                 finish()
             }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private fun release(){
         removeLocal()
         mRtcEngine?.leaveChannel()
         RtcEngine.destroy()
         mRtcEngine=null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        release()
     }
 
 }
