@@ -9,6 +9,7 @@ import org.ar.rtc.RtcEngine
 import org.ar.rtc.video.VideoCanvas
 
 class MemberAdapter(rtcEngine: RtcEngine) : BaseQuickAdapter<Member, BaseViewHolder>(R.layout.layout_video) {
+
     private var rtcEngine = rtcEngine
 
     override fun convert(baseViewHolder: BaseViewHolder, member: Member) {

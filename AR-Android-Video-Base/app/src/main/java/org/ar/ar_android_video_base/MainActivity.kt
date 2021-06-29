@@ -13,14 +13,22 @@ import org.ar.ar_android_video_base.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(){
 
-    private lateinit var viewBinding: ActivityMainBinding
+    private val viewBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding=ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(viewBinding.root)
-        viewBinding.input.addTextChangedListener(textWatcher)
-        viewBinding.join.isEnabled =false
+
+        viewBinding.run {
+            input.addTextChangedListener(textWatcher)
+            join.isEnabled = false
+            join.setOnClickListener {
+                startActivity(Intent().apply {
+                    setClass(this@MainActivity,VideoActivity::class.java)
+                    putExtra("channelId",viewBinding.input.text.toString())
+                })
+            }
+        }
 
         if (!AndPermission.hasPermissions(this, Permission.Group.STORAGE,
                         Permission.Group.MICROPHONE)){
@@ -31,13 +39,6 @@ class MainActivity : AppCompatActivity(){
                     Permission.Group.MICROPHONE,
                     Permission.Group.CAMERA
             ).onGranted {}.start();
-        }
-
-        viewBinding.join.setOnClickListener {
-            Intent(this,VideoActivity::class.java).apply {
-                putExtra("channelId",viewBinding.input.text.toString())
-                startActivity(this)
-            }
         }
     }
 

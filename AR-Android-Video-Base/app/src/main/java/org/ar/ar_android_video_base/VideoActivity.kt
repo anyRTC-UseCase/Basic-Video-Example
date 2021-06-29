@@ -15,39 +15,30 @@ import org.ar.rtc.video.VideoCanvas
 
 class VideoActivity:AppCompatActivity() ,View.OnClickListener{
 
-    private val TAG = VideoActivity::class.java.simpleName
-    private lateinit var viewBinding:ActivityVideoBinding
+    private val viewBinding by lazy { ActivityVideoBinding.inflate(layoutInflater) }
     private var channelId:String =""
     private var userId:String =""
-    private var mRtcEngine:RtcEngine? =null
+    private lateinit var mRtcEngine:RtcEngine
     private var isMic:Boolean=false
     private var isCamera:Boolean=false
     private lateinit var videoAdapter:MemberAdapter
 
     private inner class RtcEvent :IRtcEngineEventHandler(){
+
         override fun onJoinChannelSuccess(channel: String, uid: String, elapsed: Int) {
             super.onJoinChannelSuccess(channel, uid, elapsed)
             runOnUiThread {
-                Log.i(TAG, "onJoinChannelSuccess: --->")
                 val member = Member(uid)
-                mRtcEngine?.setupLocalVideo(member.getVideoCanvas(this@VideoActivity))
+                mRtcEngine.setupLocalVideo(member.getVideoCanvas(this@VideoActivity))
                 videoAdapter.addData(member)
-            }
-        }
-
-        override fun onUserJoined(uid: String, elapsed: Int) {
-            super.onUserJoined(uid, elapsed)
-            runOnUiThread {
-                Log.i(TAG, "onUserJoined: --->")
             }
         }
 
         override fun onFirstRemoteVideoDecoded(uid: String, width: Int, height: Int, elapsed: Int) {
             super.onFirstRemoteVideoDecoded(uid, width, height, elapsed)
             runOnUiThread {
-                Log.i(TAG, "onFirstRemoteVideoDecoded: --->")
                 val member = Member(uid)
-                mRtcEngine?.setupRemoteVideo(member.getVideoCanvas(this@VideoActivity))
+                mRtcEngine.setupRemoteVideo(member.getVideoCanvas(this@VideoActivity))
                 videoAdapter.addData(member)
             }
         }
@@ -55,7 +46,6 @@ class VideoActivity:AppCompatActivity() ,View.OnClickListener{
         override fun onUserOffline(uid: String, reason: Int) {
             super.onUserOffline(uid, reason)
             runOnUiThread {
-                Log.i(TAG, "onUserOffline: --->")
                 videoAdapter.remove(Member(uid))
             }
         }
@@ -63,30 +53,31 @@ class VideoActivity:AppCompatActivity() ,View.OnClickListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityVideoBinding.inflate(LayoutInflater.from(this))
         setContentView(viewBinding.root)
+
         channelId = intent.getStringExtra("channelId").toString()
-        userId = App.app.userId.toString()
-        mRtcEngine = RtcEngine.create(this,getString(R.string.ar_appid),RtcEvent())
+        userId = App.app.userId
+        mRtcEngine = RtcEngine.create(this,getString(R.string.ar_appid),RtcEvent()).also {
+            it.enableVideo()
+            it.setEnableSpeakerphone(true)
+        }
         initView()
         joinChannel()
     }
 
     private fun initView(){
-        videoAdapter = MemberAdapter(mRtcEngine!!)
-        viewBinding.rvVideo.layoutManager = GridLayoutManager(this,2)
-        viewBinding.rvVideo.adapter = videoAdapter
-        viewBinding.mic.setOnClickListener(this)
-        viewBinding.camera.setOnClickListener(this)
-        viewBinding.leave.setOnClickListener(this)
+        viewBinding.run {
+            videoAdapter = MemberAdapter(mRtcEngine!!)
+            rvVideo.layoutManager = GridLayoutManager(this@VideoActivity,2)
+            rvVideo.adapter = videoAdapter
+            mic.setOnClickListener(this@VideoActivity)
+            camera.setOnClickListener(this@VideoActivity)
+            leave.setOnClickListener(this@VideoActivity)
+        }
     }
 
     private fun joinChannel(){
-        mRtcEngine?.let {
-            it.enableVideo()
-            it.setEnableSpeakerphone(true)
-            it.joinChannel(getString(R.string.ar_token),channelId,"",userId)
-        }
+        mRtcEngine.joinChannel(getString(R.string.ar_token),channelId,"",userId)
     }
 
 
@@ -103,12 +94,12 @@ class VideoActivity:AppCompatActivity() ,View.OnClickListener{
             R.id.mic ->{
                 isMic =!isMic
                 viewBinding.mic.isSelected =isMic
-                mRtcEngine?.muteLocalAudioStream(isMic)
+                mRtcEngine.muteLocalAudioStream(isMic)
             }
             R.id.camera->{
                 isCamera =!isCamera
                 viewBinding.camera.isSelected=isCamera
-                mRtcEngine?.switchCamera()
+                mRtcEngine.switchCamera()
             }
             R.id.leave->{
                 finish()
@@ -116,15 +107,9 @@ class VideoActivity:AppCompatActivity() ,View.OnClickListener{
         }
     }
 
-    private fun release(){
-        mRtcEngine?.leaveChannel()
-        RtcEngine.destroy()
-        mRtcEngine=null
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        release()
+        RtcEngine.destroy()
     }
 
 }

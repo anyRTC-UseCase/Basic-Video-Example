@@ -5,7 +5,7 @@ import kotlin.properties.Delegates
 
 class App:Application() {
 
-    val userId :String? =((Math.random()*9+1)*100000L).toInt().toString()
+    val userId :String =((Math.random()*9+1)*100000L).toInt().toString()
 
     companion object{
         var app: App by Delegates.notNull()
@@ -14,6 +14,5 @@ class App:Application() {
     override fun onCreate() {
         super.onCreate()
         app = this
-        // DialogSettings.style = DialogSettings.STYLE.STYLE_IOS
     }
 }
