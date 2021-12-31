@@ -10,6 +10,7 @@ import android.view.View
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.runtime.Permission
 import org.ar.ar_android_video_base.databinding.ActivityMainBinding
+import org.ar.ar_android_video_base.java.JavaVideoActivity
 
 class MainActivity : AppCompatActivity(){
 
